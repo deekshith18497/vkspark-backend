@@ -1,7 +1,8 @@
 package com.vkspark.vkspark_backend.entity;
-
+import java.util.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,5 +34,7 @@ public class Movie extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate releaseDate;
+    @OneToMany(mappedBy = "movie")
+    private List<Review> review;
 
 }
