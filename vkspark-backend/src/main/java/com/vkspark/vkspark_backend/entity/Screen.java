@@ -1,5 +1,5 @@
 package com.vkspark.vkspark_backend.entity;
-
+import java.util.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +19,6 @@ public class Screen extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "theatre_id")
     private Theatre theatre;
-
+    @OneToMany(mappedBy = "screen")
+    private List<Seat> seats;
 }
