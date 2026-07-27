@@ -30,5 +30,5 @@ public class Theatre extends BaseEntity {
 
      @OneToMany(mappedBy = "theatre")
     private List<Screen> screens;
-
+//l
 }
