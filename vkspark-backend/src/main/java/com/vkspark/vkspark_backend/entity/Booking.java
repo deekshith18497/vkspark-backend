@@ -1,5 +1,5 @@
 package com.vkspark.vkspark_backend.entity;
-
+import java.util.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +24,6 @@ public class Booking extends BaseEntity {
     @Column(nullable = false)
     private String bookingStatus;
 
+    @OneToMany(mappedBy = "booking")
+    private List<BookingSeat> bookingSeats;
 }
