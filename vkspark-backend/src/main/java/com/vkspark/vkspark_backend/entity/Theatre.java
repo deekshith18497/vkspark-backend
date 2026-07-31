@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
+import java.util.*;
 @Getter
 @Setter
 @Entity
@@ -24,5 +24,6 @@ public class Theatre extends BaseEntity {
     @Column(nullable = false)
     private Integer totalScreens;
 
-   
+   @OneToMany(mappedBy = "theatre")
+    private List<Show> shows;
 }

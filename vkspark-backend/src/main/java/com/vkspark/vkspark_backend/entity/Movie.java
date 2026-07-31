@@ -34,6 +34,10 @@ public class Movie extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate releaseDate;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Show> shows;
+
     @OneToMany(mappedBy = "movie")
     private List<Review> review;
 
