@@ -1,11 +1,10 @@
+
 package com.vkspark.vkspark_backend.entity;
-import java.util.*;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -17,18 +16,13 @@ public class Theatre extends BaseEntity {
     private String theatreName;
 
     @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
     private String city;
 
     @Column(nullable = false)
-    private String state;
+    private String address;
 
     @Column(nullable = false)
-    private String pinCode;
+    private Integer totalScreens;
 
-     @OneToMany(mappedBy = "theatre")
-    private List<Screen> screens;
-//l
+   
 }

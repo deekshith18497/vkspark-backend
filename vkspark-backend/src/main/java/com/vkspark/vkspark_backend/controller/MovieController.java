@@ -2,8 +2,7 @@ package com.vkspark.vkspark_backend.controller;
 
 import com.vkspark.vkspark_backend.entity.Movie;
 import com.vkspark.vkspark_backend.service.MovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +19,28 @@ public class MovieController {
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
     }
+
+    @PostMapping("/movies")
+    public Movie saveMovie(@RequestBody Movie movie) {
+        return movieService.saveMovie(movie);
+    }
+
+    @GetMapping("/movies/{id}")
+    public Movie getMovieById(@PathVariable Long id) {
+        return movieService.getMovieById(id);
+    }
+
+    @PutMapping("/movies/{id}")
+    public Movie updateMovie(@PathVariable Long id,
+                             @RequestBody Movie movie) {
+        return movieService.updateMovie(id, movie);
+    }
+   
+    @DeleteMapping("/movies/{id}")
+public String deleteMovie(@PathVariable Long id) {
+
+    movieService.deleteMovie(id);
+
+    return "Movie Deleted Successfully";
+}
 }
