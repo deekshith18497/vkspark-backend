@@ -1,20 +1,9 @@
-# Stage 1 - Build
-FROM eclipse-temurin:21-jdk AS builder
+FROM eclipse-temurin:24-jdk
 
 WORKDIR /app
 
-COPY . .
+COPY target/*.jar app.jar
 
-RUN chmod +x mvnw
-RUN ./mvnw clean package -Dmaven.test.skip=true
-
-# Stage 2 - Run
-FROM eclipse-temurin:21-jre
-
-WORKDIR /app
-
-COPY --from=builder /app/target/vkspark-backend-0.0.1-SNAPSHOT.jar app.jar
-
-EXPOSE 7050
+EXPOSE 8080
 
 ENTRYPOINT ["java","-jar","app.jar"]
