@@ -19,6 +19,10 @@ public class Screen extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "theatre_id")
     private Theatre theatre;
+    
+    @OneToMany(mappedBy = "screen")
+    private List<Show> shows;
+    
     @OneToMany(mappedBy = "screen")
     private List<Seat> seats;
 }

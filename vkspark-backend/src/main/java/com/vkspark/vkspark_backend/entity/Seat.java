@@ -1,5 +1,5 @@
 package com.vkspark.vkspark_backend.entity;
-import java.util.*;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +17,13 @@ public class Seat extends BaseEntity {
     private String seatType;
 
     @Column(nullable = false)
-    private Boolean available;
+    private Boolean booked;
 
     @ManyToOne
     @JoinColumn(name = "screen_id")
     private Screen screen;
-
-        @OneToMany(mappedBy = "seat")
-    private List<BookingSeat> bookingSeats;
+    
+    @ManyToOne
+    @JoinColumn(name = "show_id", nullable = false)
+    private Show show;
 }

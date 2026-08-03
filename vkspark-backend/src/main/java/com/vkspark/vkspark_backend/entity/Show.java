@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,13 +14,16 @@ import java.time.LocalTime;
 @Table(name = "shows")
 public class Show extends BaseEntity {
 
+    @OneToMany(mappedBy = "show")
+    private List<Seat> seats;
+
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "theatre_id", nullable = false)
-    private Theatre theatre;
+    @JoinColumn(name = "screen_id", nullable = false)
+    private Screen screen;
 
     @Column(nullable = false)
     private LocalDate showDate;

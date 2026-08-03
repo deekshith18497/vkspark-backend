@@ -2,12 +2,19 @@ package com.vkspark.vkspark_backend.controller;
 
 import com.vkspark.vkspark_backend.entity.Theatre;
 import com.vkspark.vkspark_backend.service.TheatreService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/theatres")
+@Tag(
+        name = "Theatres",
+        description = "Theatre APIs"
+)
 public class TheatreController {
 
     private final TheatreService theatreService;

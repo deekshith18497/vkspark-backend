@@ -1,12 +1,14 @@
 package com.vkspark.vkspark_backend.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.stereotype.Service;
+import java.util.*;
 import com.vkspark.vkspark_backend.entity.Movie;
+import com.vkspark.vkspark_backend.exception.ResourceNotFoundException;
 import com.vkspark.vkspark_backend.repository.MovieRepository;
 import com.vkspark.vkspark_backend.service.MovieService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -18,46 +20,92 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    public Movie addMovie(Movie movie) {
+
+        return movieRepository.save(movie);
+
     }
 
     @Override
-    public Movie saveMovie(Movie movie) {
-        return movieRepository.save(movie);
+    public Movie updateMovie(Long id, Movie movie) {
+
+        Movie existingMovie =
+                movieRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("Movie Not Found"));
+
+        existingMovie.setMovieName(movie.getMovieName());
+        existingMovie.setDescription(movie.getDescription());
+        existingMovie.setDuration(movie.getDuration());
+        existingMovie.setLanguage(movie.getLanguage());
+        existingMovie.setGenre(movie.getGenre());
+        existingMovie.setPosterUrl(movie.getPosterUrl());
+        existingMovie.setReleaseDate(movie.getReleaseDate());
+
+        return movieRepository.save(existingMovie);
+    }
+
+    @Override
+    public void deleteMovie(Long id) {
+
+        Movie movie =
+                movieRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("Movie Not Found"));
+
+        movieRepository.delete(movie);
+
     }
 
     @Override
     public Movie getMovieById(Long id) {
 
-        Optional<Movie> movie = movieRepository.findById(id);
+        return movieRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Movie Not Found"));
 
-        if (movie.isPresent()) {
-            return movie.get();
-        }
-
-        throw new RuntimeException("Movie not found with id: " + id);
     }
+
     @Override
-public Movie updateMovie(Long id, Movie updatedMovie) {
+    public Page<Movie> getAllMovies(Pageable pageable) {
 
-    Movie movie = getMovieById(id);
+        return movieRepository.findAll(pageable);
 
-    movie.setMovieName(updatedMovie.getMovieName());
-    movie.setDescription(updatedMovie.getDescription());
-    movie.setDuration(updatedMovie.getDuration());
-    movie.setLanguage(updatedMovie.getLanguage());
-    movie.setGenre(updatedMovie.getGenre());
-    movie.setPosterUrl(updatedMovie.getPosterUrl());
-    movie.setReleaseDate(updatedMovie.getReleaseDate());
+    }
 
-    return movieRepository.save(movie);
+    @Override
+public List<Movie> searchMovie(String keyword) {
+
+    return movieRepository
+            .findByMovieNameContainingIgnoreCase(keyword);
+
 }
+
 @Override
-public void deleteMovie(Long id) {
+public List<Movie> getMoviesByLanguage(String language) {
 
-    Movie movie = getMovieById(id);
+    return movieRepository
+            .findByLanguageIgnoreCase(language);
 
-    movieRepository.delete(movie);
+}
+
+@Override
+public List<Movie> getMoviesByGenre(String genre) {
+
+    return movieRepository
+            .findByGenreIgnoreCase(genre);
+
+}
+
+@Override
+public List<Movie> getMoviesByLanguageAndGenre(
+        String language,
+        String genre) {
+
+    return movieRepository
+            .findByLanguageIgnoreCaseAndGenreIgnoreCase(
+                    language,
+                    genre);
+
 }
 }

@@ -1,5 +1,5 @@
 package com.vkspark.vkspark_backend.entity;
-import java.util.*;
+import com.vkspark.vkspark_backend.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,20 +10,30 @@ import lombok.Setter;
 @Table(name = "bookings")
 public class Booking extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false)
+    private String customerName;
+
+    @Column(nullable = false)
+    private String customerPhone;
+
+    @OneToOne(mappedBy = "booking")
+    private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "show_id")
+    @JoinColumn(name = "show_id", nullable = false)
     private Show show;
+
+    @ManyToOne
+    @JoinColumn(name = "seat_id", nullable = false)
+    private Seat seat;
 
     @Column(nullable = false)
     private Double totalAmount;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String bookingStatus;
+    private BookingStatus bookingStatus;
 
-    @OneToMany(mappedBy = "booking")
-    private List<BookingSeat> bookingSeats;
+    @OneToOne(mappedBy = "booking")
+    private Payment payment;
 }
